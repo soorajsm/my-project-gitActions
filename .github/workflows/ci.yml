@@ -29,13 +29,18 @@ jobs:
     - name: List files to debug jar output
       run: ls -R build/libs
 
-    - name: Build and Push Docker Image..
-      uses: mr-smithers-excellent/docker-build-push@v4
-      with:
-        image: nanajanashia/demo-app
-        registry: docker.io
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Login to the DockerHub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
-        
+    - name: Build the Docker Image with version and latest tag
+      run: docker build -t sooraj2002/my-app-actions:1.0 -t sooraj2002/my-app-actions:latest .
+
+    - name: Push both the versions into the DockerHub
+      run: |
+        docker push sooraj2002/my-app-actions:1.0
+        docker push sooraj2002/my-app-actions:latest
+
+
+
+
          
