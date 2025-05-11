@@ -26,6 +26,8 @@ jobs:
 
     - name: Build with Gradle
       run: ./gradlew build
+    - name: List files to debug jar output
+      run: ls -R build/libs
 
     - name: Login to the DockerHub
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
@@ -41,14 +43,4 @@ jobs:
 
 
 
-
-
-
-    # - name: Build and Push Docker Image
-    #   uses: mr-smithers-excellent/docker-build-push@v4
-    #   with:
-    #     image: nanajanashia/demo-app
-    #     registry: docker.io
-    #     username: ${{ secrets.DOCKER_USERNAME }}
-    #     password: ${{ secrets.DOCKER_PASSWORD }}
          
