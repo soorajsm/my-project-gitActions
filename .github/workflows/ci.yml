@@ -10,6 +10,8 @@ on:
 
 jobs:
   build-java:
+    env:
+      Image: sooraj2002/my-app-actions
 
     runs-on: ubuntu-latest
     
@@ -26,19 +28,18 @@ jobs:
 
     - name: Build with Gradle
       run: ./gradlew build
-    - name: List files to debug jar output
-      run: ls -R build/libs
 
     - name: Login to the DockerHub
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
     - name: Build the Docker Image with version and latest tag
-      run: docker build -t sooraj2002/my-app-actions:1.0 -t sooraj2002/my-app-actions:latest .
+      run: docker build -t ${{Image}}:1.0 -t ${{Image}}:latest .
 
     - name: Push both the versions into the DockerHub
       run: |
-        docker push sooraj2002/my-app-actions:1.0
-        docker push sooraj2002/my-app-actions:latest
+        docker push ${{Image}}:1.0
+        docker push ${{Image}}:latest
+
 
 
 
